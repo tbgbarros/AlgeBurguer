@@ -88,3 +88,5 @@ function updateCart() {
     carrinho_total.textContent = total.toLocaleString("pt-br", { style: "currency", currency: "BRL" })
     contadorCarrinho.innerHTML = cart.length;
 }
+
+//testes envio
