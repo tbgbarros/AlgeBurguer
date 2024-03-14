@@ -5,3 +5,21 @@
 body {
     background-color: #f6f7f8;
 }
+
+@font-face {
+    font-family: 'Harrison Rough';
+    src: url('./HarrisonRough.otf');
+}
+
+.corLaranja {
+    background-color: #F47D08;
+}
+
+.fonteAlger {
+    font-family: 'Harrison Rough', sans-serif;
+    /* Use o nome da fonte importada */
+}
+
+.corFonteLaranja {
+    color: #F47D08;
+}
