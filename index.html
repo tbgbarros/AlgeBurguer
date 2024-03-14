@@ -138,7 +138,7 @@
     </div>
 
     <!-- modal pra ver o carrinho com transparencia  -->
-    <div class="bg-black/60 w-full h-full fixed top-0 left-0 z-[99] hidden items-center justify-center">
+    <div class="bg-black/60 w-full h-full fixed top-0 left-0 z-[99] hidden items-center justify-center" id="modal">
         <div class="bg-white p-5 rounded-md min-w-[90%] md:min-w-[600px]">
             <h2 class="text-center font-bold text-2xl mb-2">Meu Carrinho</h2>
 
@@ -164,12 +164,14 @@
     <footer class="w-full corLaranja py-3 fixed bottom-0 z-40 flex items-center justify-center">
         <button class="flex items-center gap-2 text-white font-bold" id="carrinho-botao">
             (
-            <span id="contador-carrinho">2</span>
+            <span id="contador-carrinho">0</span>
             )
             Veja o carrinho
             <i class="fa fa-cart-plus text-lg text-white"></i>
         </button>
     </footer>
+
+    <script src="scripts.js"></script>
 </body>
 
 </html>
