@@ -70,15 +70,13 @@ function updateCart() {
         const cartItemElement = document.createElement("div")
         cartItemElement.classList.add("flex", "justify-brtween", "mb-4", "flex-col")
         cartItemElement.innerHTML = `
-            <div>
+            <div class="flex items-center justify-between">
                 <div>
                     <p class="font-bold">${item.name}</p>
-                    <p class="font-light"> R$ ${item.price}</p>
+                    <p class="font-light"> R$ ${item.price.toFixed(2)}</p>
                     <p class="font-medium mt-2">Qtd: ${item.qtd}</p>
                 </div>
-                <div>
-                    <button class="remover-item">Remover</button>
-                </div>
+                    <button class="remover-item bg-green-500 text-white px-4 py-1 rounded" data-name="${item.name}">Remover</button>
             </div>
         `
         total += item.price * item.qtd;
@@ -90,3 +88,64 @@ function updateCart() {
 }
 
 //testes envio
+
+//remover item carrinho
+carrinho_itens.addEventListener("click", function (event) {
+    let botao = event.target.closest(".remover-item")
+    if (botao) {
+        const name = botao.getAttribute("data-name")
+        removeFromCard(name)
+    }
+})
+
+//funcao para remover item do carrinho
+function removeFromCard(name) {
+    const index = cart.findIndex(item => item.name === name)
+    if (index !== -1) {
+        const item = cart[index]
+        if (item.qtd > 1) {
+            item.qtd -= 1
+            updateCart()
+            return;
+        }
+        cart.splice(index, 1);
+        updateCart();
+    }
+}
+
+//endereco da pessoa
+endereco.addEventListener("input", function (event) {
+    let valor = event.target.value;
+    //sem valor vazio
+    if (valor !== "") {
+        semEndereco.classList.add("hidden")
+        endereco.classList.remove("border-red-500")
+    }
+    //parte para enviar pedido via whatsapp com as info digitadas e escolhidas
+    const carrinho_itens = cart.map((item) => {
+        return `
+        ${item.name} Quantidade:  (${item.qtd}) Preço: R$ ${item.price} |
+        `}).join("")
+
+    const mensagem = encodeURIComponent(carrinho_itens)
+    const telefone = "19994139474"
+
+    window.open(`https://wa.me/${telefone}?text=${mensagem} Endereço: ${endereco.value}`, "_blank")
+
+    cart.length = 0;
+    updateCart();
+})
+
+
+
+//finalizar pedido
+finalizarPedido.addEventListener("click", function () {
+    if (cart.length === 0) {
+        alert("Não há itens no carrinho")
+        return;
+    }
+    if (endereco.value === "") {
+        semEndereco.classList.remove("hidden")
+        endereco.classList.add("border-red-500")
+    }
+})
