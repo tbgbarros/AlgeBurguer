@@ -121,19 +121,7 @@ endereco.addEventListener("input", function (event) {
         semEndereco.classList.add("hidden")
         endereco.classList.remove("border-red-500")
     }
-    //parte para enviar pedido via whatsapp com as info digitadas e escolhidas
-    const carrinho_itens = cart.map((item) => {
-        return `
-        ${item.name} Quantidade:  (${item.qtd}) Preço: R$ ${item.price} |
-        `}).join("")
 
-    const mensagem = encodeURIComponent(carrinho_itens)
-    const telefone = "19994139474"
-
-    window.open(`https://wa.me/${telefone}?text=${mensagem} Endereço: ${endereco.value}`, "_blank")
-
-    cart.length = 0;
-    updateCart();
 })
 
 
@@ -148,4 +136,17 @@ finalizarPedido.addEventListener("click", function () {
         semEndereco.classList.remove("hidden")
         endereco.classList.add("border-red-500")
     }
+    //parte para enviar pedido via whatsapp com as info digitadas e escolhidas
+    const carrinho_itens = cart.map((item) => {
+        return `
+            ${item.name} Quantidade:  (${item.qtd}) Preço: R$ ${item.price} |
+            `}).join("")
+
+    const mensagem = encodeURIComponent(carrinho_itens)
+    const telefone = "19994139474"
+
+    window.open(`https://wa.me/${telefone}?text=${mensagem} Endereço: ${endereco.value}`, "_blank")
+
+    cart.length = 0;
+    updateCart();
 })
