@@ -137,15 +137,28 @@ finalizarPedido.addEventListener("click", function () {
         endereco.classList.add("border-red-500")
     }
     //parte para enviar pedido via whatsapp com as info digitadas e escolhidas
+    // const carrinho_itens = cart.map((item) => {
+    //     return `
+    //         ${item.name} Quantidade:  (${item.qtd}) Preço: R$ ${item.price} |
+    //         `}).join("")
+
+    // const mensagem = encodeURIComponent(carrinho_itens)
+    // const telefone = "19994139474"
+
+    // window.open(`https://wa.me/${telefone}?text=${mensagem} Endereço: ${endereco.value}`, "_blank")
     const carrinho_itens = cart.map((item) => {
         return `
-            ${item.name} Quantidade:  (${item.qtd}) Preço: R$ ${item.price} |
-            `}).join("")
+            🍔 ${item.name} 
+            Quantidade: ${item.qtd} 
+            Preço: R$ ${item.price.toFixed(2)} 
+            ---------------------
+            `;
+    }).join("");
 
-    const mensagem = encodeURIComponent(carrinho_itens)
-    const telefone = "19994139474"
+    const mensagem = encodeURIComponent(`Olá! Aqui estão os itens do meu carrinho: \n\n${carrinho_itens} \n\nEndereço: ${endereco.value}`);
+    const telefone = "19994139474";
 
-    window.open(`https://wa.me/${telefone}?text=${mensagem} Endereço: ${endereco.value}`, "_blank")
+    window.open(`https://wa.me/${telefone}?text=${mensagem}`, "_blank");
 
     cart.length = 0;
     updateCart();
