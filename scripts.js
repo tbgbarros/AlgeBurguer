@@ -14,6 +14,70 @@ const carrinho_total = document.getElementById("carrinho-total")
 
 let cart = [];
 
+//multiplicacao de matriz para gerar o valor do lanche em cada mercado e ver qual e melhor comprar
+//tabela de dois lanches
+const lanches = [
+    // [Pão de hamburguer, Hamburguer de carne, Queijo cheddar, Queijo muçarela, Catupiry, Tomate, Bacon]
+    [1, 1, 0, 0.050, 0.050, 2, 0], // X-Burguer
+    [1, 2, 0.080, 0.080, 0.080, 4, 0.10] // X-Burger especial
+];
+
+// Tabela de valor unitário nos supermercados
+const valoresUnitarios = [
+    // [Delta, Savegnago]
+    [2.24, 1.74], // pao de hamburguer (unidade)
+    [1.66, 1.46], // hamburguer de carne (unidade)
+    [78.00, 117.01], // queijo cheddar (kg)
+    [76.63, 74.66], // queijo muçarela (kg)
+    [75.96, 69.40], // catupiry (kg)
+    [0.55, 0.56], // tomate (rodela)
+    [75.96, 79.80] // bacon (kg)
+];
+
+// funcao para multiplicacao de matrizes
+function multiplicaMatrizes(matriz1, matriz2) {
+    const resultado = matriz1.map((row, i) =>
+        row.map((_, j) =>
+            matriz1[i].reduce((sum, _, k) => sum + matriz1[i][k] * matriz2[k][j], 0)
+        )
+    );
+
+    // Somar os valores dos dois lanches
+    const somaDosValores = resultado.reduce((acc, row) => acc + row.reduce((acc, val) => acc + val, 0), 0);
+
+    return somaDosValores;
+}
+
+// multiplicar as matrizes lanches e valoresUnitarios
+const custos = multiplicaMatrizes(lanches, valoresUnitarios);
+
+//variáveis para armazenar o mercado mais barato e o custo do lanche nesse mercado
+let mercadoMaisBarato = '';
+// infinito representa numero maximo tipo 999999....
+let custoMaisBarato = Infinity;
+
+// Percorrer a matriz de custos
+for (let i = 0; i < custos.length; i++) {
+    for (let j = 0; j < custos[i].length; j++) {
+        //comparar o custo atual com o custo mais barato encontrado até agora
+        if (custos[i][j] < custoMaisBarato) {
+            custoMaisBarato = custos[i][j];
+            //determinar o nome do mercado mais barato baseado no índice da coluna na matriz
+            mercadoMaisBarato = j === 0 ? 'Delta' : 'Savegnago';
+        }
+    }
+}
+
+// Exibir os custos
+console.log("Custos dos lanches em diferentes supermercados:");
+console.log("-------------------------------------------------");
+console.log("Lanche\t\tDelta\t\tSavegnago");
+console.log("-------------------------------------------------");
+console.log("X-Burguer\t$" + custos[0][0].toFixed(2) + "\t\t$" + custos[0][1].toFixed(2));
+console.log("X-Burger E\t$" + custos[1][0].toFixed(2) + "\t\t$" + custos[1][1].toFixed(2));
+console.log("O mercado mais barato é:", mercadoMaisBarato);
+console.log("O custo do lanche nesse mercado é: $" + custoMaisBarato.toFixed(2));
+
 //abrir carrinho
 carrinho_botao.addEventListener("click", function () {
     modal.style.display = "flex"

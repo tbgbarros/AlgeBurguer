@@ -1961,10 +1961,6 @@ video {
           box-decoration-break: clone;
 }
 
-.bg-contain {
-  background-size: contain;
-}
-
 .bg-cover {
   background-size: cover;
 }
@@ -2157,8 +2153,8 @@ video {
   line-height: 2.25rem;
 }
 
-.text-9xl {
-  font-size: 8rem;
+.text-7xl {
+  font-size: 4.5rem;
   line-height: 1;
 }
 
@@ -2170,16 +2166,6 @@ video {
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
-}
-
-.text-5xl {
-  font-size: 3rem;
-  line-height: 1;
-}
-
-.text-7xl {
-  font-size: 4.5rem;
-  line-height: 1;
 }
 
 .font-bold {
