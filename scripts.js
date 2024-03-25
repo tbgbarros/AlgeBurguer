@@ -36,47 +36,53 @@ const valoresUnitarios = [
 
 // funcao para multiplicacao de matrizes
 function multiplicaMatrizes(matriz1, matriz2) {
-    const resultado = matriz1.map((row, i) =>
-        row.map((_, j) =>
-            matriz1[i].reduce((sum, _, k) => sum + matriz1[i][k] * matriz2[k][j], 0)
+    return matriz1.map((row) =>
+        matriz2[0].map((_, j) =>
+            row.reduce((sum, _, k) => sum + row[k] * matriz2[k][j], 0)
         )
     );
-
-    // Somar os valores dos dois lanches
-    const somaDosValores = resultado.reduce((acc, row) => acc + row.reduce((acc, val) => acc + val, 0), 0);
-
-    return somaDosValores;
 }
+// Margem de lucro com custos menores de produtos não contabilizados e embalagens
+const margemDeLucro = 1.5; // 150%
 
-// multiplicar as matrizes lanches e valoresUnitarios
-const custos = multiplicaMatrizes(lanches, valoresUnitarios);
 
-//variáveis para armazenar o mercado mais barato e o custo do lanche nesse mercado
-let mercadoMaisBarato = '';
-// infinito representa numero maximo tipo 999999....
-let custoMaisBarato = Infinity;
+// Função para calcular o custo do lanche com a margem de lucro
+function calcularCustoComMargemDeLucro() {
+    // Multiplicar as matrizes lanches e valoresUnitarios para obter os custos em cada supermercado
+    const custos = multiplicaMatrizes(lanches, valoresUnitarios);
 
-// Percorrer a matriz de custos
-for (let i = 0; i < custos.length; i++) {
-    for (let j = 0; j < custos[i].length; j++) {
-        //comparar o custo atual com o custo mais barato encontrado até agora
-        if (custos[i][j] < custoMaisBarato) {
-            custoMaisBarato = custos[i][j];
-            //determinar o nome do mercado mais barato baseado no índice da coluna na matriz
+    // Variáveis para armazenar o mercado mais barato e o custo do lanche nesse mercado
+    let mercadoMaisBarato = '';
+    let custoMaisBarato = Infinity;
+
+    // Percorrer a matriz de custos para encontrar o mercado mais barato
+    for (let j = 0; j < custos[0].length; j++) {
+        let custoTotal = 0;
+        for (let i = 0; i < custos.length; i++) {
+            custoTotal += custos[i][j];
+        }
+        // Aplicar a margem de lucro ao custo total
+        custoTotal *= (1 + margemDeLucro);
+        if (custoTotal < custoMaisBarato) {
+            custoMaisBarato = custoTotal;
             mercadoMaisBarato = j === 0 ? 'Delta' : 'Savegnago';
         }
     }
+
+    // Exibir os custos
+    console.log("Custos dos lanches em diferentes supermercados:");
+    console.log("-------------------------------------------------");
+    console.log("Lanche\t\tDelta\t\tSavegnago");
+    console.log("-------------------------------------------------");
+    console.log("X-Burguer\tR$" + custos[0][0].toFixed(2) + "\t\tR$" + custos[0][1].toFixed(2));
+    console.log("X-Burger E\tR$" + custos[1][0].toFixed(2) + "\t\tR$" + custos[1][1].toFixed(2));
+    console.log("O mercado mais barato é:", mercadoMaisBarato);
+    console.log("O custo do lanche nesse mercado é: $" + custoMaisBarato.toFixed(2));
 }
 
-// Exibir os custos
-console.log("Custos dos lanches em diferentes supermercados:");
-console.log("-------------------------------------------------");
-console.log("Lanche\t\tDelta\t\tSavegnago");
-console.log("-------------------------------------------------");
-console.log("X-Burguer\t$" + custos[0][0].toFixed(2) + "\t\t$" + custos[0][1].toFixed(2));
-console.log("X-Burger E\t$" + custos[1][0].toFixed(2) + "\t\t$" + custos[1][1].toFixed(2));
-console.log("O mercado mais barato é:", mercadoMaisBarato);
-console.log("O custo do lanche nesse mercado é: $" + custoMaisBarato.toFixed(2));
+// Chamar a função on load 
+window.addEventListener('load', calcularCustoComMargemDeLucro);
+
 
 //abrir carrinho
 carrinho_botao.addEventListener("click", function () {
